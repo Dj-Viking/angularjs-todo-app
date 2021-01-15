@@ -4,27 +4,44 @@ const main = angular.module('main', []);
 main.controller('main', function($scope) {
 
   $scope.textInput = '';
+  $scope.textInputSubscription = '';
+  $scope.errorInputTooLong = '';
 
-  $scope.textInputTwo = '';
+  $scope.todos = [];
 
-  $scope.seeChange = function() {
-    //same as $scope
+  $scope.observeInputChange = function() {
+    //same as $scope.textInput
     //console.log(this.textInput);
-    // console.log($scope.textInput);
-
-    $scope.textInputTwo = $scope.textInput;
-
-    console.log($scope.textInputTwo);
-  }
-
-  $scope.inputChange = function(event) {
-    console.log(event.target.value);
-    $scope.textInput = event.target.value
+    console.log($scope.textInput.length);
+    $scope.textInputSubscription = $scope.textInput;
+    console.log($scope.textInputSubscription);
   }
 
   $scope.addTodo = function() {
-
-    console.log('added todo');
+    //if char limit reached return
+    console.log($scope.textInput.length);
+    if ($scope.textInput.length > 30)
+    {
+      return;
+    }
+    //if empty return
+    else if ($scope.textInput === '') 
+    {
+      return;
+    }
+    else 
+    {
+      $scope.errorInputTooLong = '';
+      $scope.todos.push(
+        {
+          id: uuid.v4(),
+          text: $scope.textInput
+        }
+      );
+      console.log($scope.todos);
+  
+      console.log('added todo in todos array');
+    }
   };
 
   $scope.removeTodo = function() {
@@ -34,10 +51,29 @@ main.controller('main', function($scope) {
 
   $scope.formSubmit = function(event) {
     event.preventDefault();
-    console.log(event.target[0].value);
-    console.log('form submitted');
-
-    test();
+    //if char limit reached return
+    console.log($scope.textInput.length);
+    if ($scope.textInput.length > 30)
+    {
+      $scope.errorInputTooLong = 
+        'Your input has too many characters';
+      return;
+    }
+    //if empty return
+    else if ($scope.textInput === '') 
+    {
+      return;
+    }
+    else
+    {
+      console.log(event.target[0].value);
+      console.log('form submitted');
+  
+      //reset input field
+      $scope.textInput = '';
+  
+      test();
+    }
   };
 
 });
