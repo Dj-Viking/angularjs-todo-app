@@ -2,18 +2,27 @@ const main = angular.module('main', []);
 
 main.controller('main', function($scope) {
 
+  $scope.todoDateCreated = moment(Date.now()).format('MMM DD, YYYY');
+  $scope.todoTimeCreated = ''
+  
   $scope.textInput = '';
   $scope.textInputSubscription = '';
+  $scope.textInputLength = 0;
   $scope.errorInputTooLong = '';
+  $scope.inputLengthIsError = false;
 
   $scope.todos = [];
+  $scope.todoId = '';
 
   $scope.observeInputChange = function() {
     //same as $scope.textInput
     //console.log(this.textInput);
-    console.log($scope.textInput.length);
+    //console.log($scope.textInput.length);
+    //set length variable to observed value
+    $scope.textInputLength = $scope.textInput.length
+
     $scope.textInputSubscription = $scope.textInput;
-    console.log($scope.textInputSubscription);
+    //console.log($scope.textInputSubscription);
   }
 
   $scope.addTodo = function() {
@@ -30,22 +39,39 @@ main.controller('main', function($scope) {
     }
     else 
     {
+      $scope.todoId = uuid.v4();
       $scope.errorInputTooLong = '';
       $scope.todos.push(
         {
-          id: uuid.v4(),
+          id: $scope.todoId,
           text: $scope.textInput
         }
       );
       console.log($scope.todos);
+
+      //reset todoId after push
+      $scope.todoId = '';
   
       console.log('added todo in todos array');
     }
   };
 
-  $scope.removeTodo = function() {
+  $scope.removeTodo = function(event) {
+    let itemId = event.target.parentElement.children[0].innerText;
 
+    //console.log('item to remove id: ', event.target.parentElement.children[0].innerText);
+
+    for (let i = 0; i < $scope.todos.length; i++)
+    {
+      if (itemId === $scope.todos[i].id)
+      {
+        //remove the todo from the array at the index we found the id on
+        $scope.todos.splice(i, 1);
+      }
+    }
+    
     console.log('removed todo');
+    console.log('todos array now', $scope.todos);
   }
 
   $scope.formSubmit = function(event) {
@@ -55,7 +81,7 @@ main.controller('main', function($scope) {
     if ($scope.textInput.length > 30)
     {
       $scope.errorInputTooLong = 
-        'Your input has too many characters';
+        'Your input has exceeded the 30 character limit';
       return;
     }
     //if empty return
@@ -70,7 +96,7 @@ main.controller('main', function($scope) {
   
       //reset input field
       $scope.textInput = '';
-  
+      $scope.textInputLength = 0;
     }
   };
 
