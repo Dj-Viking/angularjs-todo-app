@@ -14,6 +14,40 @@
             [ng\:cloak], [ng-cloak], .ng-cloak {
                 display: none;
             }
+
+            /* todo list item dynamic styles */
+
+            /* even list item */
+            .background-grey {
+                background-color: rgb(172, 172, 172);
+                border-radius: 10px;
+            }
+            .background-grey span div {
+                color: black;
+            }
+            .background-grey span div span {
+                color: black;
+            }
+
+            /* odd list item */
+            .background-dark-grey {
+                background-color: grey;
+                border-radius: 10px;
+            }
+            /* .background-dark-grey > * > * {
+                color: white;
+            }
+            .background-dark-grey > * > * > * {
+                color: white;
+            } */
+            .background-dark-grey span div {
+                color: white;
+            }
+            .background-dark-grey span div span {
+                color: white
+            }
+
+            /* todo list item dynamic styles */
         </style>
     </head>
     <body class="dark-mode-body">
@@ -46,8 +80,17 @@
                     >
                         Add Todo
                     </button>
+                    <div class="input-length-display">
+                        <span
+                            ng-if="!inputLengthIsError"
+                            style="color: white;"
+                        >
+                            Input Length: {{textInputLength}}
+                        </span>
+                    </div>
                 </form>
             </div>
+            
     
             <div class="todo-list-container">
                 <h2>Todo List</h2>
@@ -59,13 +102,19 @@
                     <li
                         ng-repeat="todo in todos"
                         ng-if="todos.length > 0"
+                        ng-class-odd="'background-dark-grey'"
+                        ng-class-even="'background-grey'"
                     >
                         <span>
+                            <div style="display: none;">{{todo.id}}</div>
                             <div>
                                 {{todo.text}}
+                                <span>
+                                    {{todoDateCreated}} 
+                                </span>
                             </div>
                             <button
-                                ng-click="removeTodo()"
+                                ng-click="removeTodo($event)"
                             >
                                 X
                             </button>
@@ -77,6 +126,7 @@
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js" integrity="sha512-UNM1njAgOFUa74Z0bADwAq8gbTcqZC8Ej4xPSzpnh0l6KMevwvkBvbldF9uR++qKeJ+MOZHRjV1HZjoRvjDfNQ==" crossorigin="anonymous"></script>
         <script src="/assets/js/main.js"></script>
     </body>
