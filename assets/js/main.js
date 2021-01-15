@@ -1,4 +1,3 @@
-import test from './test.js';
 const main = angular.module('main', []);
 
 main.controller('main', function($scope) {
@@ -72,7 +71,6 @@ main.controller('main', function($scope) {
       //reset input field
       $scope.textInput = '';
   
-      test();
     }
   };
 
