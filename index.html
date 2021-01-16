@@ -53,10 +53,14 @@
     <body class="dark-mode-body">
 
         <div ng-controller="main">
-
-            <header class="header">
-                <h1>AngularJS Todo App</h1>
-            </header>
+            <div class="header-container">
+                <header class="header">
+                    <h1>AngularJS Todo App</h1>
+                    <h2>
+                        {{currentQuote}}
+                    </h2>
+                </header>
+            </div>
 
             <div class="input-length-error">
                 <span
@@ -100,8 +104,8 @@
                     ng-start="0"
                 >
                     <li
-                        ng-repeat="todo in todos"
                         ng-if="todos.length > 0"
+                        ng-repeat="todo in todos"
                         ng-class-odd="'background-dark-grey'"
                         ng-class-even="'background-grey'"
                     >
@@ -119,6 +123,7 @@
                                 X
                             </button>
                         </span>
+
                     </li>
                 </ol>
             </div>

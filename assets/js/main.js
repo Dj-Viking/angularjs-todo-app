@@ -1,6 +1,6 @@
 const main = angular.module('main', []);
 
-main.controller('main', function($scope) {
+main.controller('main', function($scope, $http) {
 
   $scope.todoDateCreated = moment(Date.now()).format('MMM DD, YYYY');
   $scope.todoTimeCreated = ''
@@ -13,6 +13,24 @@ main.controller('main', function($scope) {
 
   $scope.todos = [];
   $scope.todoId = '';
+  $scope.quotes = [];
+  $scope.currentQuote = '';
+
+  $http.get("https://type.fit/api/quotes")
+  .then(response => {
+    console.log(response);
+    console.log('got quotes');
+    $scope.quotes = response.data;
+    console.log($scope.quotes);
+    //set a random quote from the quotes array
+    let randomIndex = Math.floor(Math.random() * $scope.quotes.length);
+    $scope.currentQuote = 
+    `
+      "${$scope.quotes[randomIndex].text}" - ${$scope.quotes[randomIndex].author}
+    `;
+    console.log('quote index', randomIndex);
+  })
+  .catch(e => console.log(e));
 
   $scope.observeInputChange = function() {
     //same as $scope.textInput
