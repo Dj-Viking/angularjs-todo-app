@@ -64,7 +64,7 @@
 
             <div class="input-length-error">
                 <span
-                    ng-if="errorInputTooLong.length > 0"
+                    ng-if="inputLengthIsError"
                 >
                     {{errorInputTooLong}}
                 </span>    
@@ -91,11 +91,16 @@
                         >
                             Input Length: {{textInputLength}}
                         </span>
+                        <span
+                            ng-if="inputLengthIsError"
+                            style="color: red;"
+                        >
+                            Input Length: {{textInputLength}}
+                        </span>
                     </div>
                 </form>
             </div>
             
-    
             <div class="todo-list-container">
                 <h2>Todo List</h2>
                 <ol 
@@ -114,7 +119,7 @@
                             <div>
                                 {{todo.text}}
                                 <span>
-                                    {{todo.created}}
+                                    {{todo.createdAt}}
                                 </span>
                             </div>
                             <button
