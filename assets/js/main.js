@@ -23,7 +23,7 @@ main.controller('main', function($scope, $http) {
     let randomIndex = Math.floor(Math.random() * $scope.quotes.length);
     $scope.currentQuote = 
     `
-      "${$scope.quotes[randomIndex].text}" - ${$scope.quotes[randomIndex].author}
+      "${$scope.quotes[randomIndex].text}" - ${$scope.quotes[randomIndex].author === null ? 'Unknown' : $scope.quotes[randomIndex].author }
     `;
     console.log('quote index', randomIndex);
   })
