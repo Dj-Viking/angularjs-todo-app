@@ -1,9 +1,6 @@
 const main = angular.module('main', []);
 
 main.controller('main', function($scope, $http) {
-
-  $scope.todoDateCreated = moment(Date.now()).format('MMM DD, YYYY');
-  $scope.todoTimeCreated = ''
   
   $scope.textInput = '';
   $scope.textInputSubscription = '';
@@ -57,12 +54,22 @@ main.controller('main', function($scope, $http) {
     }
     else 
     {
+      //create a moment date
+      $scope.todoDateCreated = moment(Date.now()).format(`MMM DD, YYYY hh:mm:ss${`a`.toUpperCase()}`);
+      //console.log($scope.todoDateCreated.split(' ').splice(3, 1).join(''));
+      //get time out of the date created above
+      $scope.todoTimeCreated = timeConversion($scope.todoDateCreated.split(' ')[3]);
+      //isolate only date
+      $scope.todoDateCreated = $scope.todoDateCreated.split(' ').splice(0, 3).join(' ');
+      console.log($scope.todoDateCreated);
+
       $scope.todoId = uuid.v4();
       $scope.errorInputTooLong = '';
       $scope.todos.push(
         {
           id: $scope.todoId,
-          text: $scope.textInput
+          text: $scope.textInput,
+          created: `Created: ${$scope.todoDateCreated} at ${$scope.todoTimeCreated}`
         }
       );
       console.log($scope.todos);
