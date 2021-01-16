@@ -30,11 +30,23 @@ main.controller('main', function($scope, $http) {
   .catch(e => console.log(e));
 
   $scope.observeInputChange = function() {
-    //same as $scope.textInput
-    //console.log(this.textInput);
-    //console.log($scope.textInput.length);
+
     //set length variable to observed value
-    $scope.textInputLength = $scope.textInput.length
+    
+    $scope.textInput === undefined || ''
+    ? $scope.textInputLength = 0 
+    : $scope.textInputLength = $scope.textInput.length;
+
+    if($scope.textInputLength > 30) 
+    {
+      $scope.errorInputTooLong = 
+        'Your input has exceeded the 30 character limit';
+      $scope.inputLengthIsError = true;
+    } 
+    else if($scope.textInputLength <= 30)
+    {
+      $scope.inputLengthIsError = false;
+    }
 
     $scope.textInputSubscription = $scope.textInput;
     //console.log($scope.textInputSubscription);
@@ -69,7 +81,7 @@ main.controller('main', function($scope, $http) {
         {
           id: $scope.todoId,
           text: $scope.textInput,
-          created: `Created: ${$scope.todoDateCreated} at ${$scope.todoTimeCreated}`
+          createdAt: `Created: ${$scope.todoDateCreated} @ ${$scope.todoTimeCreated}`
         }
       );
       console.log($scope.todos);
