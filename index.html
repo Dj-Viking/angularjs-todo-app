@@ -102,44 +102,46 @@
             </div>
 
              <!-- Modal edit todo content -->
-            <div 
-                class="modal-content"
-                ng-if="showModal"
-            >
-                <div class="modal-header">
-                    <span 
-                        class="close"
-                        ng-click="closeModal()"
-                    >
-                        &times;
-                    </span>
-
-                    <h2>
-                        Edit Todo 
-                        <span>
-                            {{modalCurrentTodoDate.replace('Created: ', '')}}
-                        </span>
-                    </h2>
-                </div>
-                    
-                <div class="modal-body">
-                    <div class="input-container">
-                        <input 
-                            type="text"
-                            ng-model="modalTextInput"
-                            ng-change="observeModalInputChange()"
-                        >    
-                        <button
-                            ng-click="editTodo()"
-                            style="margin-top: 0; margin-left: 10px;"
+            <div class="modal-container">
+                <div 
+                    class="modal-content"
+                    ng-if="showModal"
+                >
+                    <div class="modal-header">
+                        <span 
+                            class="close"
+                            ng-click="closeModal()"
                         >
-                            Edit
-                        </button>
+                            <i ng-click ="closeModal()" class="fas fa-times-circle"></i>
+                        </span>
+    
+                        <h2>
+                            Edit Todo 
+                            <span>
+                                {{modalCurrentTodoDate.replace('Created: ', '')}}
+                            </span>
+                        </h2>
                     </div>
-                </div>
-
-                <div class="modal-footer"></div>
-            </div> 
+                        
+                    <div class="modal-body">
+                        <div class="input-container">
+                            <input 
+                                type="text"
+                                ng-model="modalTextInput"
+                                ng-change="observeModalInputChange()"
+                            >    
+                            <button
+                                ng-click="editTodo()"
+                                style="margin-top: 0; margin-left: 10px;"
+                            >
+                                Edit
+                            </button>
+                        </div>
+                    </div>
+    
+                    <div class="modal-footer"></div>
+                </div> 
+            </div>
             <!-- todolist -->
             <div class="todo-list-container">
                 <h2>Todo List</h2>

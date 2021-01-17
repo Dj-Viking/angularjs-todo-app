@@ -160,6 +160,9 @@
   box-shadow: 0px 5px 5px black;
 }
 
+.modal-container {
+  position: relative;
+}
 .modal-header {
   padding: 2px 16px;
   border-top-right-radius: 10px;
@@ -181,22 +184,25 @@
 }
 .modal-content {
   border-radius: 10px;
-  position: relative;
+  position: absolute;
   background-color: grey;
   margin: auto;
   padding: 0;
+  top: -175px;
+  left: 10%;
   border: 1px solid #888;
   width: 80%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
   animation-name: animatetop;
   animation-duration: .4s;
+  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 @keyframes animatetop {
   from {
-    top: -300px; opacity: 0
+    top: -1000px; opacity: 0
   }
   to {
-    top: 0; opacity: 1
+    top: -175px; opacity: 1
   }
 }
 .close {
