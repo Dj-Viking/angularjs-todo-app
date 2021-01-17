@@ -29,13 +29,6 @@ User.init
       validate: {
         len: [4]
       }
-    },
-    todo_id: {
-      type: DataTypes.UUIDV4,
-      references: {
-        model: 'todo',
-        key: 'id'
-      }
     }
   },
   {

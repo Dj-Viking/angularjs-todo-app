@@ -1,12 +1,16 @@
 const User = require('./User.js');
 const Todo = require('./Todo.js');
+const Linker = require('./Linker.js')
 
-User.hasMany(Todo, {
+User.belongsToMany(Todo, {
+  through: Linker,
   foreignKey: 'todo_id'
 });
 
 Todo.belongsTo(User, {
-  foreignKey: 'todo_id'
-});
+  through: Linker,
+  foreignKey: 'user_id',
+})
 
-module.exports = { User, Todo };
+
+module.exports = { User, Todo, Linker };
