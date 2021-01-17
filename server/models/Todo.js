@@ -15,9 +15,6 @@ Todo.init
     text: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        len: [30]
-      }
     },
     createdAt: {
       type: DataTypes.STRING,

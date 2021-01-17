@@ -25,6 +25,9 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, '../public')));
 // app.use(routes);
 
+let userId;
+let todoId;
+
 sequelize.sync({force: true})
 .then(() => 
 {
@@ -39,8 +42,8 @@ sequelize.sync({force: true})
       if (userInfo[0] === undefined) 
       {
         const newUser = await User.create({
-          username: 'test',
-          password: 'test'
+          username: 'asdf',
+          password: 'asdf'
         });
         console.log(newUser);
       }
@@ -50,6 +53,31 @@ sequelize.sync({force: true})
       console.log(error);
     }
   }, 500);
+})
+.then(() => 
+{
+  setTimeout( async () => 
+  { 
+    console.log(``);
+    console.log('\x1b[36m', '❄️ testing seeding a todo into the database', '\x1b[00m');
+    try 
+    {
+      const todoInfo = await Todo.findAll();
+      console.log(todoInfo);
+      if (todoInfo[0] === undefined)
+      {
+        const newTodo = await Todo.create({
+          text: 'test todo text',
+          createdAt: new Date().toString()
+        });
+        console.log(newTodo);
+      }
+    } 
+    catch (error) 
+    {
+      console.log(error);
+    }
+  }, 1000);
 })
 .then(() => 
 {
