@@ -1,14 +1,16 @@
+const Sequelize = require('sequelize');
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connConfig/connection.js');
+const uuid = require('uuid');
 
 class Todo extends Model {}
 
 Todo.init
 (
   {
-    uuid: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       allowNull: false,
       primaryKey: true
     },

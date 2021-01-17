@@ -25,10 +25,18 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, '../public')));
 // app.use(routes);
 
-let userId;
-let todoId;
+let user;
+let todo;
 
 sequelize.sync({force: true})
+.then(() => 
+{
+  console.log('\x1b[33m', 'connecting to database', '\x1b[00m');
+  app.listen(PORT, () => 
+  {
+    console.log('\x1b[33m', `🔮 Now listening on PORT ${PORT}!`, '\x1b[00m');
+  });
+})
 .then(() => 
 {
   setTimeout( async () => 
@@ -41,11 +49,14 @@ sequelize.sync({force: true})
       console.log(userInfo);
       if (userInfo[0] === undefined) 
       {
-        const newUser = await User.create({
-          username: 'asdf',
-          password: 'asdf'
-        });
+        const newUser = await User.create(
+          {
+            username: 'asdf',
+            password: 'asdf'
+          }
+        );
         console.log(newUser);
+        user = newUser;
       }
     } 
     catch (error)
@@ -66,11 +77,14 @@ sequelize.sync({force: true})
       console.log(todoInfo);
       if (todoInfo[0] === undefined)
       {
-        const newTodo = await Todo.create({
-          text: 'test todo text',
-          createdAt: new Date().toString()
-        });
+        const newTodo = await Todo.create(
+          {
+            text: 'test todo text',
+            createdAt: new Date().toString()
+          }
+        );
         console.log(newTodo);
+        todo = newTodo;
       }
     } 
     catch (error) 
@@ -81,10 +95,30 @@ sequelize.sync({force: true})
 })
 .then(() => 
 {
-  console.log('\x1b[33m', 'connecting to database', '\x1b[00m');
-  app.listen(PORT, () => 
+  setTimeout( async () => 
   {
-    console.log('\x1b[33m', `🔮 Now listening on PORT ${PORT}!`, '\x1b[00m');
-  });
+    try 
+    {
+      console.log(``);
+      console.log('\x1b[35m', ' ⚛️  testing seeding both user and todo related into the linker table into the database', '\x1b[00m');
+      const linkerTable = await Linker.findAll();
+      console.log(linkerTable);
+      if (linkerTable[0] === undefined) 
+      {
+        //update Linker table with new user and todo data
+        const newLinkerTable = await Linker.create(
+          {
+            user_id: user.dataValues.id,
+            todo_id: todo.dataValues.id
+          }
+        );
+        console.log(newLinkerTable);;
+      }
+    } 
+    catch (error) 
+    {
+      console.log(error);
+    }  
+  }, 1500);
 })
 .catch(error => console.log(error));
