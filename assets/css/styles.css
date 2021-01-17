@@ -7,6 +7,7 @@
 .header-container {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .header {
@@ -19,6 +20,36 @@
   color: white;
   margin-top: 30px;
   text-align: center;
+  width: 100%;
+}
+.header > * > * {
+  color: white;
+}
+
+.random-quote-container {
+  display: flex;
+  position: relative;
+  top: 0px;
+  width: 100vw;
+  justify-content: center;
+  flex-wrap: wrap
+}
+.random-quote {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  animation-name: animatein;
+  animation-duration: 5s;
+  animation-delay: 1s;
+  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+@keyframes animatein {
+  from {
+    top: -500px; opacity: 0
+  }
+  to {
+    top: 0px; opacity: 1
+  }
 }
 
 .input-length-display {
@@ -53,7 +84,7 @@
 
 .input-container input {
   height: 30px;
-  width: 300px;
+  width: 30vw;
   border-radius: 10px;
   border: none;
   text-align: left;
@@ -62,6 +93,7 @@
 }
 .input-container button {
   margin-top: 30px;
+  margin-left: 10px;
   height: 30px;
   width: 100px;
   color: blue;
@@ -116,10 +148,15 @@
   flex-wrap: wrap;
   width: 500px;
 }
-.todo-list li button {
-  float: right;
-  color: red;
-  background-color: white;
+
+.btn-container {
+  justify-content: flex-end;
+}
+
+.todo-list li .trash-btn {
+  margin: 0 10px;
+  color: black;
+  background-color: rgb(255, 95, 95);
   width: 30px;
   border-radius: 10px;
   border: none;
@@ -127,10 +164,100 @@
   transition: .1s;
   box-shadow: 0px 3px 5px black;
 }
-.todo-list li button:hover {
+.todo-list li .trash-btn:hover {
   color: white;
   background-color: red;
   cursor: pointer;
   transition: .1s;
   box-shadow: 0px 5px 5px black;
+}
+
+.todo-list li .edit-btn {
+  margin: 0 10px;
+  color: black;
+  background-color: rgb(66, 192, 241);
+  width: 30px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: .1s;
+  box-shadow: 0px 3px 5px black;
+}
+.todo-list li .edit-btn:hover {
+  color: white;
+  background-color: blue;
+  cursor: pointer;
+  transition: .1s;
+  box-shadow: 0px 5px 5px black;
+}
+
+.modal-container {
+  position: relative;
+}
+.modal-input-and-length-container {
+  display: flex;
+  flex-direction: column;
+}
+.modal-input-length-error {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.modal-input-length-error span{
+  color: red;
+  position: absolute;
+  top: -20px;
+}
+.modal-header {
+  padding: 2px 16px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  background-color: rgb(66, 192, 241);
+}
+.modal-header h2 {
+  color: white;
+}
+.modal-body {
+  padding: 2px 16px;
+}
+.modal-footer {
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding: 10px 16px;
+  background-color: rgb(66, 192, 241);;
+  color: white;
+}
+.modal-content {
+  border-radius: 10px;
+  position: absolute;
+  background-color: grey;
+  margin: auto;
+  padding: 0;
+  top: -175px;
+  left: 10%;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  animation-name: animatetop;
+  animation-duration: .8s;
+  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+@keyframes animatetop {
+  from {
+    top: -500px; opacity: 0
+  }
+  to {
+    top: -175px; opacity: 1
+  }
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover, .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }

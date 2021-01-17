@@ -2,11 +2,27 @@ const main = angular.module('main', []);
 
 main.controller('main', function($scope, $http) {
   
-  $scope.textInput = '';
+  $scope.textInput = {
+    text: '',
+    pattern: /.+/
+  }
   $scope.textInputSubscription = '';
   $scope.textInputLength = 0;
   $scope.errorInputTooLong = '';
+
   $scope.inputLengthIsError = false;
+
+  $scope.showModal = false;
+  $scope.modalTextInput = {
+    text: '',
+    pattern: /.+/
+  }
+  $scope.modalTextInputSubscription = '';
+  $scope.modalTextInputLength = 0;
+  $scope.modalErrorInputTooLong = '';
+  $scope.modalInputLengthIsError = false;
+  $scope.modalCurrentTodoDate = '';
+  $scope.modalCurrentTodoId = '';
 
   $scope.todos = [];
   $scope.todoId = '';
@@ -33,9 +49,9 @@ main.controller('main', function($scope, $http) {
 
     //set length variable to observed value
     
-    $scope.textInput === undefined || ''
+    $scope.textInput.text === undefined || ''
     ? $scope.textInputLength = 0 
-    : $scope.textInputLength = $scope.textInput.length;
+    : $scope.textInputLength = $scope.textInput.text.length;
 
     if($scope.textInputLength > 30) 
     {
@@ -48,19 +64,19 @@ main.controller('main', function($scope, $http) {
       $scope.inputLengthIsError = false;
     }
 
-    $scope.textInputSubscription = $scope.textInput;
-    //console.log($scope.textInputSubscription);
+    $scope.textInputSubscription = $scope.textInput.text;
+    console.log($scope.textInputSubscription);
   }
 
   $scope.addTodo = function() {
     //if char limit reached return
-    console.log($scope.textInput.length);
+    console.log($scope.textInput.text.length);
     if ($scope.textInput.length > 30)
     {
       return;
     }
     //if empty return
-    else if ($scope.textInput === '') 
+    else if ($scope.textInput.text === '') 
     {
       return;
     }
@@ -80,7 +96,7 @@ main.controller('main', function($scope, $http) {
       $scope.todos.push(
         {
           id: $scope.todoId,
-          text: $scope.textInput,
+          text: $scope.textInput.text,
           createdAt: `Created: ${$scope.todoDateCreated} @ ${$scope.todoTimeCreated}`
         }
       );
@@ -93,20 +109,91 @@ main.controller('main', function($scope, $http) {
     }
   };
 
+  $scope.openModal = function(event) {
+    //show modal
+    $scope.showModal = true;
+    $scope.modalCurrentTodoDate = '';
+    //focus on text input
+    setTimeout(() => {
+      document.querySelector('#modal-text-input').focus();
+    }, 100);
+
+    //console.log(event.target.parentElement.parentElement.parentElement.children[0].innerText);
+    console.log('id of todo we want to edit', event.target.id);
+    //get todo by id
+    for (let i = 0; i < $scope.todos.length; i++) 
+    {
+      if (event.target.id === $scope.todos[i].id)
+      {
+        console.log($scope.todos[i]);
+        //set modalCurrentTodoDate to the 
+        // todo createdAt that we found
+        $scope.modalCurrentTodoDate = $scope.todos[i].createdAt;
+        //set modalCurrentTodoId to the
+        // todo we found
+        $scope.modalCurrentTodoId = $scope.todos[i].id;
+      }
+    }
+  }
+
+  $scope.observeModalInputChange = function() {
+
+    $scope.modalTextInput.text === undefined || ''
+    ? $scope.modalTextInputLength = 0
+    : $scope.modalTextInputLength = $scope.modalTextInput.text.length
+
+    if($scope.modalTextInputLength > 30) 
+    {
+      $scope.modalErrorInputTooLong = 
+        'Your input has exceeded the 30 character limit';
+      $scope.modalInputLengthIsError = true;
+    } 
+    else if($scope.textInputLength <= 30)
+    {
+      $scope.modalInputLengthIsError = false;
+    }
+
+    $scope.modalTextInputSubscription = $scope.modalTextInput.text;
+    console.log($scope.modalTextInputSubscription);
+
+  }
+
+  $scope.editTodo = function() {
+    
+    console.log($scope.modalTextInputLength);
+    
+    //if char limit reached return
+    if ($scope.modalTextInputLength > 30) return;
+    else if ($scope.modalTextInputLength <= 30) 
+    {
+      for (let i = 0; i < $scope.todos.length; i++) 
+      {
+        if ($scope.modalCurrentTodoId === $scope.todos[i].id)
+        {
+          //modify the text of the todo we found by ID
+          $scope.todos[i].text = $scope.modalTextInput.text
+        }
+      }
+    }
+    closeModalAndUnfocus($scope);
+  }
+
+  $scope.closeModal = () => closeModalAndUnfocus($scope);
+
   $scope.removeTodo = function(event) {
-    let itemId = event.target.parentElement.children[0].innerText;
+    
+    closeModal($scope);
 
-    //console.log('item to remove id: ', event.target.parentElement.children[0].innerText);
-
+    console.log('id of todo we want to remove', event.target.id);
+    //if (event.target)
     for (let i = 0; i < $scope.todos.length; i++)
     {
-      if (itemId === $scope.todos[i].id)
+      if (event.target.id === $scope.todos[i].id)
       {
         //remove the todo from the array at the index we found the id on
         $scope.todos.splice(i, 1);
       }
     }
-    
     console.log('removed todo');
     console.log('todos array now', $scope.todos);
   }
@@ -122,7 +209,7 @@ main.controller('main', function($scope, $http) {
       return;
     }
     //if empty return
-    else if ($scope.textInput === '') 
+    else if ($scope.textInput.text === '') 
     {
       return;
     }
@@ -132,9 +219,26 @@ main.controller('main', function($scope, $http) {
       console.log('form submitted');
   
       //reset input field
-      $scope.textInput = '';
+      $scope.textInput.text = '';
       $scope.textInputLength = 0;
     }
   };
 
 });
+
+//close modal
+function closeModal($scope) {
+  $scope.showModal = false;
+  $scope.modalInputLengthIsError = false;
+  $scope.modalTextInput.text = '';
+  $scope.modalTextInputLength = 0;
+}
+
+//unfocus input field and close modal
+function closeModalAndUnfocus($scope) {
+  document.querySelector('#modal-text-input').blur();
+  $scope.showModal = false;
+  $scope.modalInputLengthIsError = false;
+  $scope.modalTextInput.text = '';
+  $scope.modalTextInputLength = 0; 
+}
