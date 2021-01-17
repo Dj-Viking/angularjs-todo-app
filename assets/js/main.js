@@ -2,7 +2,10 @@ const main = angular.module('main', []);
 
 main.controller('main', function($scope, $http) {
   
-  $scope.textInput = '';
+  $scope.textInput = {
+    text: '',
+    pattern: /.+/
+  }
   $scope.textInputSubscription = '';
   $scope.textInputLength = 0;
   $scope.errorInputTooLong = '';
@@ -10,7 +13,10 @@ main.controller('main', function($scope, $http) {
   $scope.inputLengthIsError = false;
 
   $scope.showModal = false;
-  $scope.modalTextInput = '';
+  $scope.modalTextInput = {
+    text: '',
+    pattern: /.+/
+  }
   $scope.modalTextInputSubscription = '';
   $scope.modalTextInputLength = 0;
   $scope.modalErrorInputTooLong = '';
@@ -39,17 +45,13 @@ main.controller('main', function($scope, $http) {
   })
   .catch(e => console.log(e));
 
-  $scope.observeModalInputChange = function() {
-    $scope.modalTextInput
-  }
-
   $scope.observeInputChange = function() {
 
     //set length variable to observed value
     
-    $scope.textInput === undefined || ''
+    $scope.textInput.text === undefined || ''
     ? $scope.textInputLength = 0 
-    : $scope.textInputLength = $scope.textInput.length;
+    : $scope.textInputLength = $scope.textInput.text.length;
 
     if($scope.textInputLength > 30) 
     {
@@ -62,19 +64,19 @@ main.controller('main', function($scope, $http) {
       $scope.inputLengthIsError = false;
     }
 
-    $scope.textInputSubscription = $scope.textInput;
-    //console.log($scope.textInputSubscription);
+    $scope.textInputSubscription = $scope.textInput.text;
+    console.log($scope.textInputSubscription);
   }
 
   $scope.addTodo = function() {
     //if char limit reached return
-    console.log($scope.textInput.length);
+    console.log($scope.textInput.text.length);
     if ($scope.textInput.length > 30)
     {
       return;
     }
     //if empty return
-    else if ($scope.textInput === '') 
+    else if ($scope.textInput.text === '') 
     {
       return;
     }
@@ -94,7 +96,7 @@ main.controller('main', function($scope, $http) {
       $scope.todos.push(
         {
           id: $scope.todoId,
-          text: $scope.textInput,
+          text: $scope.textInput.text,
           createdAt: `Created: ${$scope.todoDateCreated} @ ${$scope.todoTimeCreated}`
         }
       );
@@ -125,6 +127,10 @@ main.controller('main', function($scope, $http) {
         $scope.modalCurrentTodoDate = $scope.todos[i].createdAt
       }
     }
+  }
+
+  $scope.observeModalInputChange = function() {
+    console.log($scope.modalTextInput.text);
   }
 
   $scope.editTodo = function() {
@@ -167,7 +173,7 @@ main.controller('main', function($scope, $http) {
       return;
     }
     //if empty return
-    else if ($scope.textInput === '') 
+    else if ($scope.textInput.text === '') 
     {
       return;
     }
@@ -177,7 +183,7 @@ main.controller('main', function($scope, $http) {
       console.log('form submitted');
   
       //reset input field
-      $scope.textInput = '';
+      $scope.textInput.text = '';
       $scope.textInputLength = 0;
     }
   };

@@ -163,6 +163,10 @@
 .modal-container {
   position: relative;
 }
+.modal-input-and-length-container {
+  display: flex;
+  flex-direction: column;
+}
 .modal-header {
   padding: 2px 16px;
   border-top-right-radius: 10px;
@@ -194,12 +198,12 @@
   width: 80%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
   animation-name: animatetop;
-  animation-duration: .4s;
+  animation-duration: .8s;
   animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 @keyframes animatetop {
   from {
-    top: -1000px; opacity: 0
+    top: -500px; opacity: 0
   }
   to {
     top: -175px; opacity: 1
