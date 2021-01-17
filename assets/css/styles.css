@@ -167,6 +167,16 @@
   display: flex;
   flex-direction: column;
 }
+.modal-input-length-error {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.modal-input-length-error span{
+  color: red;
+  position: absolute;
+  top: -20px;
+}
 .modal-header {
   padding: 2px 16px;
   border-top-right-radius: 10px;

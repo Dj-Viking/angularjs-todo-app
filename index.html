@@ -130,16 +130,25 @@
                         <div class="input-container">
 
                             <div class="modal-input-and-length-container">
-                                <input 
+                                <div class="modal-input-length-error">
+                                    <span
+                                        ng-if="modalInputLengthIsError"
+                                    >
+                                        {{modalErrorInputTooLong}}
+                                    </span>    
+                                </div>
+                                <input
+                                    id="modal-text-input" 
                                     type="text"
                                     name="modalTextInput"
                                     ng-model="modalTextInput.text"
                                     ng-pattern="modalTextInput.pattern"
                                     ng-change="observeModalInputChange()"
+                                    autocomplete="off"
                                 >    
                                 <div>
                                     <span
-                                    ng-if="!modalInputLengthIsError"
+                                        ng-if="!modalInputLengthIsError"
                                         style="color: white;"
                                     >
                                         Input Length: {{modalTextInputLength}}
