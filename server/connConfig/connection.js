@@ -17,7 +17,7 @@ else
       host: 'localhost',
       dialect: 'mysql',
       port: 3306,
-      logging: true  
+      logging: false
     }
   );
 }
