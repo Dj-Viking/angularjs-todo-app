@@ -7,6 +7,7 @@
 .header-container {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .header {
@@ -19,6 +20,36 @@
   color: white;
   margin-top: 30px;
   text-align: center;
+  width: 100%;
+}
+.header > * > * {
+  color: white;
+}
+
+.random-quote-container {
+  display: flex;
+  position: relative;
+  top: 0px;
+  width: 100vw;
+  justify-content: center;
+  flex-wrap: wrap
+}
+.random-quote {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  animation-name: animatein;
+  animation-duration: 5s;
+  animation-delay: 1s;
+  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+@keyframes animatein {
+  from {
+    top: -500px; opacity: 0
+  }
+  to {
+    top: 0px; opacity: 1
+  }
 }
 
 .input-length-display {
@@ -53,7 +84,7 @@
 
 .input-container input {
   height: 30px;
-  width: 300px;
+  width: 30vw;
   border-radius: 10px;
   border: none;
   text-align: left;

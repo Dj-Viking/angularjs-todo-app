@@ -125,10 +125,13 @@ main.controller('main', function($scope, $http) {
     {
       if (event.target.id === $scope.todos[i].id)
       {
-        console.log($scope.todos[i])
+        console.log($scope.todos[i]);
         //set modalCurrentTodoDate to the 
         // todo createdAt that we found
-        $scope.modalCurrentTodoDate = $scope.todos[i].createdAt
+        $scope.modalCurrentTodoDate = $scope.todos[i].createdAt;
+        //set modalCurrentTodoId to the
+        // todo we found
+        $scope.modalCurrentTodoId = $scope.todos[i].id;
       }
     }
   }
@@ -156,38 +159,30 @@ main.controller('main', function($scope, $http) {
   }
 
   $scope.editTodo = function() {
-    //if char limit reached return
+    
     console.log($scope.modalTextInputLength);
-
+    
+    //if char limit reached return
     if ($scope.modalTextInputLength > 30) return;
-
-    //unfocus input field
-    document.querySelector('#modal-text-input').blur();
-    //close modal
-    $scope.showModal = false;
-    $scope.modalInputLengthIsError = false;
-    $scope.modalTextInput.text = '';
-    $scope.modalTextInputLength = 0;
+    else if ($scope.modalTextInputLength <= 30) 
+    {
+      for (let i = 0; i < $scope.todos.length; i++) 
+      {
+        if ($scope.modalCurrentTodoId === $scope.todos[i].id)
+        {
+          //modify the text of the todo we found by ID
+          $scope.todos[i].text = $scope.modalTextInput.text
+        }
+      }
+    }
+    closeModalAndUnfocus($scope);
   }
 
-  $scope.closeModal = function() {
-
-    //unfocus input field
-    document.querySelector('#modal-text-input').blur();
-    //close modal
-    $scope.showModal = false;
-    $scope.modalInputLengthIsError = false;
-    $scope.modalTextInput.text = '';
-    $scope.modalTextInputLength = 0;
-  }
+  $scope.closeModal = () => closeModalAndUnfocus($scope);
 
   $scope.removeTodo = function(event) {
     
-    //close modal
-    $scope.showModal = false;
-    $scope.modalInputLengthIsError = false;
-    $scope.modalTextInput.text = '';
-    $scope.modalTextInputLength = 0;
+    closeModal($scope);
 
     console.log('id of todo we want to remove', event.target.id);
     //if (event.target)
@@ -230,3 +225,20 @@ main.controller('main', function($scope, $http) {
   };
 
 });
+
+//close modal
+function closeModal($scope) {
+  $scope.showModal = false;
+  $scope.modalInputLengthIsError = false;
+  $scope.modalTextInput.text = '';
+  $scope.modalTextInputLength = 0;
+}
+
+//unfocus input field and close modal
+function closeModalAndUnfocus($scope) {
+  document.querySelector('#modal-text-input').blur();
+  $scope.showModal = false;
+  $scope.modalInputLengthIsError = false;
+  $scope.modalTextInput.text = '';
+  $scope.modalTextInputLength = 0; 
+}

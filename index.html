@@ -51,14 +51,18 @@
         </style>
     </head>
     <body class="dark-mode-body">
-        <!-- header and random quote -->
         <div ng-controller="main">
+            <!-- header and random quote -->
             <div class="header-container">
                 <header class="header">
                     <h1>AngularJS Todo App</h1>
-                    <h2>
-                        {{currentQuote}}
-                    </h2>
+                    <div class="random-quote-container">
+                        <h2 
+                            ng-class="'random-quote'"
+                        >
+                            {{currentQuote}}
+                        </h2>
+                    </div>
                 </header>
             </div>
 
@@ -173,6 +177,7 @@
                     </div>
     
                     <div class="modal-footer"></div>
+                    
                 </div> 
             </div>
             <!-- todolist -->
