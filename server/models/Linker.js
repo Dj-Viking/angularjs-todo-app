@@ -1,3 +1,4 @@
+const Sequelize = require('sequelize');
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connConfig/connection.js');
 
@@ -20,11 +21,11 @@ Linker.init
       }
     },
     todo_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'todo',
-        key: 'uuid'
-      }
+        key: 'id'
+      },
     }
   },
   {

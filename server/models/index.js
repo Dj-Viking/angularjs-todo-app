@@ -7,7 +7,7 @@ User.belongsToMany(Todo, {
   foreignKey: 'todo_id'
 });
 
-Todo.belongsTo(User, {
+Todo.belongsToMany(User, {
   through: Linker,
   foreignKey: 'user_id',
 })
