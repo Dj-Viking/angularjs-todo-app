@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const app = express();
-// const routes = require('./controllers');
+const routes = require('./controllers');
 require('dotenv').config();
 const PORT = process.env.PORT || 3001;
 const sequelize = require('./connConfig/connection.js');
@@ -23,7 +23,7 @@ app.use(session(appSession));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, '../public')));
-// app.use(routes);
+app.use(routes);
 
 let user;
 let todo;
