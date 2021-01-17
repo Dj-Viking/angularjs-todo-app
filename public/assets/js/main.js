@@ -71,7 +71,7 @@ main.controller('main', function($scope, $http) {
   $scope.addTodo = function() {
     //if char limit reached return
     console.log($scope.textInput.text.length);
-    if ($scope.textInput.length > 30)
+    if ($scope.textInputLength > 30)
     {
       return;
     }
@@ -201,8 +201,8 @@ main.controller('main', function($scope, $http) {
   $scope.formSubmit = function(event) {
     event.preventDefault();
     //if char limit reached return
-    console.log($scope.textInput.length);
-    if ($scope.textInput.length > 30)
+    console.log($scope.textInputLength);
+    if ($scope.textInputLength > 30)
     {
       $scope.errorInputTooLong = 
         'Your input has exceeded the 30 character limit';
