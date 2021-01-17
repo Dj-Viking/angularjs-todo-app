@@ -40,7 +40,6 @@
   position: absolute;
   animation-name: animatein;
   animation-duration: 5s;
-  animation-delay: 1s;
   animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 @keyframes animatein {
