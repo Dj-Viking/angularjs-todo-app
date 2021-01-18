@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html 
+  lang="en"
+  ng-cloak
+>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+      [ng\:cloak], [ng-cloak], .ng-cloak {
+        display: none;
+      }
+      * {
+        color: white;
+      }
+      * input {
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="input-container">
+      <form ng-submit="loginSubmit($event)">
+        <div
+          style="display: flex; flex-direction: column;"
+        >
+          <label for="username">
+            Username
+          </label>
+          <input 
+            type="text"
+            name="username"
+            ng-model="loginInput.username"
+            ng-change="loginObserveInput()"
+            ng-pattern="loginInput.pattern"
+            required
+            autocomplete="off"
+          >
+          <span>{{loginInput.userLength}}</span>
+          <label for="password">
+            Password
+          </label>
+          <input 
+            type="password"
+            name="password"
+            ng-model="loginInput.password"
+            ng-change="loginObserveInput()"
+            ng-pattern="loginInput.pattern"
+            required
+            autocomplete="off"
+          >
+          <span>{{loginInput.passLength}}</span>
+          <button type="submit">
+            Login
+          </button>
+        </div>
+  
+      </form>
+    </div>
+  </body>
+  
+</html>

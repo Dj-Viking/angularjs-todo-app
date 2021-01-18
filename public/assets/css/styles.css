@@ -32,19 +32,22 @@
   top: 0px;
   width: 100vw;
   justify-content: center;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 .random-quote {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
   color: white;
   font-size: 20px;
   position: absolute;
   animation-name: animatein;
-  animation-duration: 5s;
+  animation-duration: 2s;
   animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 @keyframes animatein {
   from {
-    top: -500px; opacity: 0
+    top: -500px; opacity: 0;
   }
   to {
     top: 0px; opacity: 1
@@ -91,6 +94,7 @@
   padding: 0 10px;
 }
 .input-container button {
+  outline: none;
   margin-top: 30px;
   margin-left: 10px;
   height: 30px;
@@ -104,7 +108,7 @@
 }
 .input-container button:hover {
   background-color: blue;
-  color: rgb(66, 192, 241);
+  color: white;
   transition: .1s;
 }
 
@@ -152,7 +156,30 @@
   justify-content: flex-end;
 }
 
+.signup-login-btn-container {
+  display: flex;
+  justify-content: center;
+}
+.signup-login-btn {
+  outline: none;
+  margin: 0 10px;
+  padding: 20px;
+  width: 100px;
+  color: blue;
+  background-color: rgb(66, 192, 241);
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: .1s;
+  box-shadow: 0px 3px 5px black;
+}
+.signup-login-btn:hover {
+  color: white;
+  background-color: blue;
+}
+
 .todo-list li .trash-btn {
+  outline: none;
   margin: 0 10px;
   color: black;
   background-color: rgb(255, 95, 95);
@@ -172,6 +199,7 @@
 }
 
 .todo-list li .edit-btn {
+  outline: none;
   margin: 0 10px;
   color: black;
   background-color: rgb(66, 192, 241);
