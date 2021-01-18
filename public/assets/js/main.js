@@ -2,6 +2,108 @@ const main = angular.module('main', []);
 
 main.controller('main', function($scope, $http) {
   
+  $scope.loggedIn = false;
+  $scope.showHomePage = true,
+  $scope.showLoginPage = false,
+  $scope.showSignupPage = false,
+
+  //login scope start
+  $scope.loginInput = {
+    username: '',
+    userLength: 0,
+    password: '',
+    passLength: 0,
+    pattern: /.+/
+  }
+  $scope.loginObserveInput = function() {
+    console.log('username input', $scope.loginInput.username);
+    $scope.loginInput.username === undefined || ''
+    ? $scope.loginInput.userLength = 0
+    : $scope.loginInput.userLength = $scope.loginInput.username.length;
+    console.log('username length', $scope.loginInput.userLength);
+
+    console.log('password input', $scope.loginInput.password);
+    $scope.loginInput.password === undefined || ''
+    ? $scope.loginInput.passLength = 0
+    : $scope.loginInput.passLength = $scope.loginInput.password.length;
+    console.log('password length', $scope.loginInput.passLength)
+  }
+  //login scope end
+
+  //signup scope start
+  $scope.signupInput = {
+    username: '',
+    userLength: 0,
+    password: '',
+    passLength: 0,
+    pattern: /.+/
+  }
+  $scope.signupObserveInput = function(event) {
+    console.log('username input', $scope.signupInput.username);
+    $scope.signupInput.username === undefined || ''
+    ? $scope.signupInput.userLength = 0
+    : $scope.signupInput.userLength = $scope.signupInput.username.length;
+    console.log('username length', $scope.signupInput.userLength);
+
+    console.log('password input', $scope.signupInput.password);
+    $scope.signupInput.password === undefined || ''
+    ? $scope.signupInput.passLength = 0
+    : $scope.signupInput.passLength = $scope.signupInput.password.length;
+    console.log('password length', $scope.signupInput.passLength);
+  }
+  //signup scope end
+
+  $scope.renderHomePage = function(event) {
+    console.log('clicked home');
+    //empty out any text inputs that was entered in login
+    // and signup pages
+    $scope.loginInput = {
+      ...$scope.loginInput,
+      username: '',
+      userLength: 0,
+      password: '',
+      passLength: 0
+    }
+    $scope.signupInput = {
+      ...$scope.signupInput,
+      username: '',
+      userLength: 0,
+      password: '',
+      passLength: 0
+    }
+
+    $scope.showHomePage = true;
+    $scope.showLoginPage = false;
+    $scope.showSignupPage = false;
+  }
+  $scope.renderLoginPage = function(event) {
+    $scope.signupInput = {
+      ...$scope.signupInput,
+      username: '',
+      userLength: 0,
+      password: '',
+      passLength: 0
+    }
+    console.log('clicked login');
+    $scope.showHomePage = false;
+    $scope.showLoginPage = true;
+    $scope.showSignupPage = false;
+
+  }
+  $scope.renderSignupPage = function(event) {
+    $scope.loginInput = {
+      ...$scope.loginInput,
+      username: '',
+      userLength: 0,
+      password: '',
+      passLength: 0
+    }
+    console.log('clicked signup');
+    $scope.showHomePage = false;
+    $scope.showLoginPage = false;
+    $scope.showSignupPage = true;
+  }
+  
   $scope.textInput = {
     text: '',
     pattern: /.+/
@@ -198,7 +300,7 @@ main.controller('main', function($scope, $http) {
     console.log('todos array now', $scope.todos);
   }
 
-  $scope.formSubmit = function(event) {
+  $scope.addTodoSubmit = function(event) {
     event.preventDefault();
     //if char limit reached return
     console.log($scope.textInputLength);

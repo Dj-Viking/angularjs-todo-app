@@ -51,187 +51,238 @@
         </style>
     </head>
     <body class="dark-mode-body">
-        <div ng-controller="main">
-            <!-- header and random quote -->
-            <div class="header-container">
-                <header class="header">
-                    <h1>AngularJS Todo App</h1>
-                    <div class="random-quote-container">
-                        <h2 
-                            ng-class="'random-quote'"
-                        >
-                            {{currentQuote}}
-                        </h2>
-                    </div>
-                </header>
-            </div>
-
-            <div class="input-length-error">
-                <span
-                    ng-if="inputLengthIsError"
+        <div 
+            ng-controller="main"
+        >
+            <div
+                class="signup-login-btn-container"
+            >
+                <button 
+                    ng-if="showSignupPage || showLoginPage" 
+                    class="signup-login-btn"
+                    ng-click="renderHomePage($event)"
                 >
-                    {{errorInputTooLong}}
-                </span>    
-            </div>
-            <!-- todo text input -->
-            <div class="input-container">
-                <form ng-submit="formSubmit($event)">
-                    <input 
-                        ng-model="textInput.text"
-                        ng-pattern="textInput.pattern"
-                        ng-change="observeInputChange()"
-                        type="text"
-                        name="textInput"
-                        required
-                        autocomplete="off"
-                    ></input>
-                    <button 
-                        type="submit"
-                        ng-click="addTodo()"
-                    >
-                        Add Todo
-                    </button>
-                    <div class="input-length-display">
-                        <span
-                            ng-if="!inputLengthIsError"
-                            style="color: white;"
-                        >
-                            Input Length: {{textInputLength}}
-                        </span>
-                        <span
-                            ng-if="inputLengthIsError"
-                            style="color: red;"
-                        >
-                            Input Length: {{textInputLength}}
-                        </span>
-                    </div>
-                </form>
-            </div>
-
-             <!-- Modal edit todo content -->
-            <div class="modal-container">
-                <div 
-                    class="modal-content"
-                    ng-if="showModal"
+                    Home
+                </button>
+                <button 
+                    ng-if="showHomePage && !loggedIn" 
+                    class="signup-login-btn"
+                    ng-click="renderSignupPage($event)"
                 >
-                    <div class="modal-header">
-                        <span 
-                            class="close"
-                            ng-click="closeModal()"
-                        >
-                            <i ng-click ="closeModal()" class="fas fa-times-circle"></i>
-                        </span>
-    
-                        <h2>
-                            Edit Todo 
-                            <span>
-                                {{modalCurrentTodoDate.replace('Created: ', '')}}
-                            </span>
-                        </h2>
-                    </div>
-                        
-                    <div class="modal-body">
-                        <div class="input-container">
+                    Sign Up
+                </button>
+                <button 
+                    ng-if="showHomePage && !loggedIn" 
+                    class="signup-login-btn"
+                    ng-click="renderLoginPage($event)"
+                >
+                    Login
+                </button>
+                <button 
+                    ng-if="showHomePage && loggedIn" 
+                    class="signup-login-btn"
+                    ng-click="logout($event)"
+                >
+                    Logout
+                </button>
 
-                            <div class="modal-input-and-length-container">
-                                <div class="modal-input-length-error">
-                                    <span
-                                        ng-if="modalInputLengthIsError"
-                                    >
-                                        {{modalErrorInputTooLong}}
-                                    </span>    
-                                </div>
-                                <input
-                                    id="modal-text-input" 
-                                    type="text"
-                                    name="modalTextInput"
-                                    ng-model="modalTextInput.text"
-                                    ng-pattern="modalTextInput.pattern"
-                                    ng-change="observeModalInputChange()"
-                                    autocomplete="off"
-                                >    
-                                <div>
-                                    <span
-                                        ng-if="!modalInputLengthIsError"
-                                        style="color: white;"
-                                    >
-                                        Input Length: {{modalTextInputLength}}
-                                    </span>
-                                    <span
-                                        ng-if="modalInputLengthIsError"
-                                        style="color: red;"
-                                    >
-                                        Input Length: {{modalTextInputLength}}
-                                    </span>
-                                </div>
-                            </div>
+            </div>
 
-                            <button
-                                ng-click="editTodo()"
-                                style="margin-top: 0; margin-left: 10px;"
+            <div ng-if="showLoginPage">
+                <ng-include src="'./views/login.html'"></ng-include>
+            </div>
+
+            <div ng-if="showSignupPage">
+                <ng-include src="'./views/signup.html'"></ng-include>
+            </div>
+
+            <div
+                ng-if="showHomePage"
+            >
+                <!-- header and random quote -->
+                <div class="header-container">
+                    <header class="header">
+                        <h1>AngularJS Todo App</h1>
+                        <div class="random-quote-container">
+                            <h2 
+                                ng-class="'random-quote'"
                             >
-                                Edit
-                            </button>
-
+                                {{currentQuote}}
+                            </h2>
                         </div>
-                    </div>
-    
-                    <div class="modal-footer"></div>
-                    
-                </div> 
-            </div>
-            <!-- todolist -->
-            <div class="todo-list-container">
-                <h2>Todo List</h2>
-                <ol 
-                    class="todo-list" 
-                    id="todo-list"
-                    ng-start="0"
-                >
-                    <li
-                        ng-if="todos.length > 0"
-                        ng-repeat="todo in todos"
-                        ng-class-odd="'background-dark-grey'"
-                        ng-class-even="'background-grey'"
+                    </header>
+                </div>
+
+                <div class="input-length-error">
+                    <span
+                        ng-if="inputLengthIsError"
                     >
-                        <span>
+                        {{errorInputTooLong}}
+                    </span>    
+                </div>
+                <!-- todo text input -->
+                <div class="input-container">
+                    <form ng-submit="addTodoSubmit($event)">
+                        <input 
+                            ng-model="textInput.text"
+                            ng-pattern="textInput.pattern"
+                            ng-change="observeInputChange()"
+                            type="text"
+                            name="textInput"
+                            required
+                            autocomplete="off"
+                        ></input>
+                        <button 
+                            type="submit"
+                            ng-click="addTodo()"
+                        >
+                            Add Todo
+                        </button>
+                        <div class="input-length-display">
+                            <span
+                                ng-if="!inputLengthIsError"
+                                style="color: white;"
+                            >
+                                Input Length: {{textInputLength}}
+                            </span>
+                            <span
+                                ng-if="inputLengthIsError"
+                                style="color: red;"
+                            >
+                                Input Length: {{textInputLength}}
+                            </span>
+                        </div>
+                    </form>
+                </div>
 
-                            <div>
-                                {{todo.text}}
+                <!-- Modal edit todo content -->
+                <div class="modal-container">
+                    <div 
+                        class="modal-content"
+                        ng-if="showModal"
+                    >
+                        <div class="modal-header">
+                            <span 
+                                class="close"
+                                ng-click="closeModal()"
+                            >
+                                <i ng-click ="closeModal()" class="fas fa-times-circle"></i>
+                            </span>
+        
+                            <h2>
+                                Edit Todo 
                                 <span>
-                                    {{todo.createdAt}}
+                                    {{modalCurrentTodoDate.replace('Created: ', '')}}
                                 </span>
-                            </div>
+                            </h2>
+                        </div>
                             
-                            <div class="btn-container">
+                        <div class="modal-body">
+                            <div class="input-container">
+
+                                <div class="modal-input-and-length-container">
+                                    <div class="modal-input-length-error">
+                                        <span
+                                            ng-if="modalInputLengthIsError"
+                                        >
+                                            {{modalErrorInputTooLong}}
+                                        </span>    
+                                    </div>
+                                    <input
+                                        id="modal-text-input" 
+                                        type="text"
+                                        name="modalTextInput"
+                                        ng-model="modalTextInput.text"
+                                        ng-pattern="modalTextInput.pattern"
+                                        ng-change="observeModalInputChange()"
+                                        autocomplete="off"
+                                    >    
+                                    <div>
+                                        <span
+                                            ng-if="!modalInputLengthIsError"
+                                            style="color: white;"
+                                        >
+                                            Input Length: {{modalTextInputLength}}
+                                        </span>
+                                        <span
+                                            ng-if="modalInputLengthIsError"
+                                            style="color: red;"
+                                        >
+                                            Input Length: {{modalTextInputLength}}
+                                        </span>
+                                    </div>
+                                </div>
+
                                 <button
-                                    id="{{todo.id}}"
-                                    class="edit-btn"
-                                    ng-click="openModal($event)"
+                                    ng-click="editTodo()"
+                                    style="margin-top: 0; margin-left: 10px;"
                                 >
-                                    <i
-                                        id="{{todo.id}}" 
-                                        class="fas fa-edit"
-                                        ng-click="openModal($event)"
-                                    ></i>
+                                    Edit
                                 </button>
-                                <button 
-                                    id="{{todo.id}}" 
-                                    class="trash-btn"
-                                    ng-click="removeTodo($event)" 
-                                >
-                                    <i 
-                                        id="{{todo.id}}"
-                                        class="fas fa-trash"
-                                        ng-click="removeTodo($event)"
-                                    ></i>
-                                </button>
+
                             </div>
+                        </div>
+        
+                        <div class="modal-footer"></div>
+                        
+                    </div> 
+                </div>
+                <!-- todolist -->
+                <div class="todo-list-container">
+                    <h2>Todo List</h2>
+                    <ol 
+                        class="todo-list" 
+                        id="todo-list"
+                        ng-start="0"
+                    >
+                        <li
+                            ng-if="todos.length > 0"
+                            ng-repeat="todo in todos"
+                            ng-class-odd="'background-dark-grey'"
+                            ng-class-even="'background-grey'"
+                        >
+                            <span>
 
-                        </span>
+                                <div>
+                                    {{todo.text}}
+                                    <span>
+                                        {{todo.createdAt}}
+                                    </span>
+                                </div>
+                                
+                                <div class="btn-container">
+                                    <button
+                                        id="{{todo.id}}"
+                                        class="edit-btn"
+                                        ng-click="openModal($event)"
+                                    >
+                                        <i
+                                            id="{{todo.id}}" 
+                                            class="fas fa-edit"
+                                            ng-click="openModal($event)"
+                                        ></i>
+                                    </button>
+                                    <button 
+                                        id="{{todo.id}}" 
+                                        class="trash-btn"
+                                        ng-click="removeTodo($event)" 
+                                    >
+                                        <i 
+                                            id="{{todo.id}}"
+                                            class="fas fa-trash"
+                                            ng-click="removeTodo($event)"
+                                        ></i>
+                                    </button>
+                                </div>
 
-                    </li>
-                </ol>
+                            </span>
+
+                        </li>
+
+                    </ol>
+
+                </div>
+
             </div>
 
         </div>
