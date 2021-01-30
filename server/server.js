@@ -22,7 +22,7 @@ const appSession = {
 app.use(session(appSession));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(express.static(path.join(__dirname, '../public')));
+//app.use(express.static(path.join(__dirname, '../public')));
 app.use(routes);
 
 let user;
@@ -55,7 +55,7 @@ sequelize.sync({force: true})
             password: 'asdf'
           }
         );
-        console.log(newUser);
+        // console.log(newUser);
         user = newUser;
       }
     } 
@@ -83,7 +83,7 @@ sequelize.sync({force: true})
             createdAt: new Date().toString()
           }
         );
-        console.log(newTodo);
+        // console.log(newTodo);
         todo = newTodo;
       }
     } 
@@ -97,22 +97,22 @@ sequelize.sync({force: true})
 {
   setTimeout( async () => 
   {
+    console.log(``);
+    console.log('\x1b[35m', '⚡️ testing seeding both user and todo related into the linker table into the database', '\x1b[00m');
     try 
     {
-      console.log(``);
-      console.log('\x1b[35m', ' ⚛️  testing seeding both user and todo related into the linker table into the database', '\x1b[00m');
-      const linkerTable = await Linker.findAll();
-      console.log(linkerTable);
-      if (linkerTable[0] === undefined) 
+      const link = await Linker.findAll();
+      console.log(link);
+      if (link[0] === undefined) 
       {
         //update Linker table with new user and todo data
-        const newLinkerTable = await Linker.create(
+        const newLink = await Linker.create(
           {
             user_id: user.dataValues.id,
             todo_id: todo.dataValues.id
           }
         );
-        console.log(newLinkerTable);;
+        // console.log(newLink);;
       }
     } 
     catch (error) 
