@@ -49,6 +49,7 @@ sequelize.sync({force: true})
       console.log(userInfo);
       if (userInfo[0] === undefined) 
       {
+        console.log('\x1b[33m', 'no users so creating one', '\x1b[00m');
         const newUser = await User.create(
           {
             username: 'asdf',
@@ -77,6 +78,7 @@ sequelize.sync({force: true})
       console.log(todoInfo);
       if (todoInfo[0] === undefined)
       {
+        console.log('\x1b[33m', 'no todos so creating one', '\x1b[00m');
         const newTodo = await Todo.create(
           {
             text: 'test todo text',
@@ -105,6 +107,7 @@ sequelize.sync({force: true})
       console.log(link);
       if (link[0] === undefined) 
       {
+        console.log('\x1b[33m', 'no linker so creating one', '\x1b[00m');
         //update Linker table with new user and todo data
         const newLink = await Linker.create(
           {
@@ -112,7 +115,7 @@ sequelize.sync({force: true})
             todo_id: todo.dataValues.id
           }
         );
-        // console.log(newLink);;
+        // console.log(newLink);
       }
     } 
     catch (error) 
